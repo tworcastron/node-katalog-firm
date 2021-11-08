@@ -1,0 +1,48 @@
+<% 'Scriptlet' tag, for control-flow, no output
+<%_ ‘Whitespace Slurping’ Scriptlet tag, strips all whitespace before it
+<%= Outputs the value into the template (HTML escaped)
+<%- Outputs the unescaped value into the template
+<%# Comment tag, no execution, no output
+<%% Outputs a literal '<%'
+%> Plain ending tag
+-%> Trim-mode ('newline slurp') tag, trims following newline
+_%> ‘Whitespace Slurping’ ending tag, removes all whitespace after it 
+
+
+<!-- Przykłady: -->
+
+<!-- Poniżej wykonuję kod JS, ale nic nie widać na widoku -->
+<% 'tu mogę wykonać kod JS, wynik nigdzie się nie pokazuje' %>
+<% const name = 'Jan' %>
+<p>Imię: <% name %></p>
+<p>Imię: <%- name %></p>
+
+<!-- W ten sposób mogę wyświetlić znak otwierający na widoku -->
+<p><%%</p>
+
+<!-- Poniższy kod JS/HTML się wykona -->
+<p><%- 'to będize widać na widoku <script>alert("hacked 1")</script>' %></p>
+<p><%- 'to będize widać na widoku <b>BOLD</b>' %></p>
+
+<!-- Poniższy kod JS/HTML się nie wykona, jest bezpieczny -->
+<p><%= 'to będize widać na widoku <script>alert("hacked 2")</script>' %></p>
+<p><%= 'to będize widać na widoku <b>BOLD</b>' %></p> 
+
+
+<!-- Znak "_" na początku usuwa białe znaki przed tagiem -->
+<p>ab   <%_ 'js code' %></p>
+
+<!-- Znak "_" na końcu usuwa białe znaki za tagiem -->
+<p><% 'js code' _%>  ab</p>
+
+<!-- myślnik na końcu usuwa znak nowej linii -->
+<ul>
+  <% [1,2,3].forEach(el => { -%>
+    <%- `<li>${el}</li>`  %>
+  <% }) -%>
+</ul>
+
+<p>1</p>
+<% const a = 32 +3 -%>
+<% const b = 32 +3 -%>
+<p>2</p>
